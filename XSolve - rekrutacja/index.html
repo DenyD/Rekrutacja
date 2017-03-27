@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Piękna i Bestia</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header> 
+    <div class="w3-center">          
+      <img class="pib" src="img/pib.png" alt="PiB logo">
+      <h1>Piękna & Bestia</h1>
+    </div>       
+  </header>
+  <section>  
+    <div ng-app="aplikacja" ng-controller="tabela" class="container">
+      <div class="w3-row">
+        <div class="w3-center">
+          <div class="w3-brown">
+          <h3> Lista wszystkich ({{sluzba.length}}) pracowników Piękna & Bestia</h3>
+          </div>
+          <div class="w3-row w3-col s3 w3-padding w3-border w3-light-grey">Szukaj:
+          </div>
+          <div class="w3-col s9">
+              <input placeholder="Search here.." type="text" class="w3-input w3-border" ng-model="szukaj">
+          </div>
+          <br>
+          <table class="w3-table">
+            <thead>
+              <tr>
+                  <th ng-click="orderByMe('id')">Nr ID &#x25BD;</th>
+                  <th ng-click="orderByMe('firstName')">Imię &#x25BD;</th>
+                  <th ng-click="orderByMe('lastName')">Nazwisko &#x25BD;</th>
+                  <th ng-click="orderByMe('dateOfBirth')">Data Urodzenia &#x25BD;</th>
+                  <th ng-click="orderByMe('function')">Stanowisko &#x25BD;</th>
+                  <th ng-click="orderByMe('experience')">Doświadczenie &#x25BD;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="pracownik in sluzba | filter: szukaj | orderBy:myOrderBy | limitTo: paginationLimit()">
+                <td>{{pracownik.id}}</td>
+                <td>{{pracownik.firstName}}</td>
+                <td>{{pracownik.lastName}}</td>
+                <td>{{pracownik.dateOfBirth}}</td>
+                <td>{{pracownik.function}}</td>
+                <td>{{pracownik.experience}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <button ng-show="hasMoreItemsToShow()" ng-click="showMoreItems()">Pokaż wszystkich pracowników</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="w3-center">
+    <p>Created by Daniel Siwczak, Copywright &copy; 2017</p>
+  </footer>
+  <script>
+  
+   /*JSON dodany tutaj, ponieważ nie wczytuje z pliku lokalnie*/
+   
+    var app = angular.module( "aplikacja" , [] );
+
+    app.controller( "tabela" , [ "$scope" , "$filter", function( $scope ) {
+      $scope.orderByMe = function(x) {
+        $scope.myOrderBy = x;
+      }
+
+      var pagesShown = 1;
+      var pageSize = 5;
+
+      $scope.paginationLimit = function() {
+      return pageSize * pagesShown;
+      };
+
+      $scope.hasMoreItemsToShow = function() {
+      return pagesShown < ($scope.sluzba.length / pageSize);
+      };
+
+      $scope.showMoreItems = function() {
+      pagesShown = pagesShown + 2;       
+      }; 
+
+
+      $scope.sluzba = [
+          {
+          "id": 1,
+          "firstName": "Dobromir",
+          "lastName": "Sprytny",
+          "dateOfBirth": "1.7.1990 11:35",
+          "function": "kamerdyner",
+          "experience": 4
+          },
+          {
+          "id": 2,
+          "firstName": "Marianna",
+          "lastName": "Prostota",
+          "dateOfBirth": "28.10.1976 2:15",
+          "function": "pokojówka",
+          "experience": 12
+          },
+          {
+          "id": 3,
+          "firstName": "Walerian",
+          "lastName": "Szybki",
+          "dateOfBirth": "03.01.1986 23:10",
+          "function": "kamerdyner",
+          "experience": 10
+          },
+          {
+          "id": 4,
+          "firstName": "Helga",
+          "lastName": "Uczynna",
+          "dateOfBirth": "4.02.1976 14:37",
+          "function": "pokojówka",
+          "experience": 12
+          },
+          {
+          "id": 5,
+          "firstName": "Krzysztof",
+          "lastName": "Klucznik",
+          "dateOfBirth": "10.10.1986 18:00",
+          "function": "lokaj",
+          "experience": 3
+          },
+          {
+          "id": 6,
+          "firstName": "Konstancja",
+          "lastName": "Urodziwa",
+          "dateOfBirth": "29.02.1936 13:33",
+          "function": "kucharka",
+          "experience": 8
+          },
+          {
+          "id": 7,
+          "firstName": "Kornelia",
+          "lastName": "Wstydliwa",
+          "dateOfBirth": "19.02.1973 23:55",
+          "function": "pokojówka",
+          "experience": 8
+          },
+          {
+          "id": 8,
+          "firstName": "Władysława",
+          "lastName": "Dobrotliwa",
+          "dateOfBirth": "29.12.1977 18:25",
+          "function": "pokojówka",
+          "experience": 8
+          },
+          {
+          "id": 9,
+          "firstName": "Mirosław",
+          "lastName": "Podstępny",
+          "dateOfBirth": "09.12.1972 17:35",
+          "function": "kamerdyner",
+          "experience": 8
+          },
+          {
+          "id":10,
+          "firstName": "Walerian",
+          "lastName": "Drażliwy",
+          "dateOfBirth": "29.03.1980 15:36", 
+          "function": "lokaj",
+          "experience": 8
+          },
+          {
+          "id":11,
+          "firstName": "Katarzyna",
+          "lastName": "Krasna",
+          "dateOfBirth": "05.05.1983 01:15",
+          "function": "pokojówka",
+          "experience": 8
+          },
+          {
+          "id": 12,
+          "firstName": "Urszula",
+          "lastName": "Markotna",
+          "dateOfBirth": "06.04.1981 12:35",
+          "function": "pokojówka",
+          "experience": 8
+          }
+        ];
+      }]);
+  </script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+</body>
+
+</html>
